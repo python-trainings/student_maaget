@@ -1,1 +1,1 @@
-# student_maaget
+# Student Management
