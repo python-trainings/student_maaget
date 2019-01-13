@@ -1,29 +1,16 @@
 from flask import render_template
 from app import app
+import models
 
 
 @app.route('/')
-@app.route('/index')
+def welcome_home():
+    return "Home Page"
+
+@app.route('/students')
 def index():
-    text = "This is a flask app"
-    return text
-    # user = {'username': 'Admin'}
-    # students = [
-    #     {
-    #         'name': 'Pragyan',
-    #         'details': '70%'
-    #     },
-    #     {
-    #         'name': 'Sarath',
-    #         'details': '75%'
-    #     },
-    #     {
-    #         'name': 'Subham',
-    #         'details': '65%'
-    #     },
-    #     {
-    #         'name': 'Sayan',
-    #         'details': '70%'
-    #     }
-    # ]
-    # return render_template('index.html', title='Home', user=user, students=students)
+    student_data = models.get_student_details()
+    header_text = "Student Details"
+    return render_template('students.html',header_text = header_text, student_data = student_data)
+
+
