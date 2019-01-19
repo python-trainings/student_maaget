@@ -16,6 +16,12 @@ class DB:
         except (Exception, psycopg2.Error) as error :
             print ("Error while connecting to fetching", error)
 
+    def insert(self,query):
+        try:
+            self.cursor.execute(query)
+            self.connection.commit()
+        except (Exception, psycopg2.Error) as error :
+            print ("Error while connecting to fetching", error)
     # "SELECT * from student;"
     # for i in range(10):
     #     cmd = "insert into student(name,age, gender, contact_no, course, address, qualification_10, qualification_12) values ('subham', 20, 'M', '999222833%s', 'IT', 'blore', 90, 80);" % i
