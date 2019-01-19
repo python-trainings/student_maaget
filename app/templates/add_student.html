@@ -1,0 +1,37 @@
+<h1>Add Student</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.student_name.label }}<br>
+            {{ form.student_name(size=32) }}
+        </p>
+        <p>
+            {{ form.student_age.label }}<br>
+            {{ form.student_age(size=32) }}
+        </p>
+        <p>
+            {{ form.student_gender.label }}<br>
+            {{ form.student_gender(size=32) }}
+        </p>
+        <p>
+            {{ form.student_contact_no.label }}<br>
+            {{ form.student_contact_no(size=32) }}
+        </p>
+        <p>
+            {{ form.student_course.label }}<br>
+            {{ form.student_course(size=32) }}
+        </p>
+        <p>
+            {{ form.student_address.label }}<br>
+            {{ form.student_address(size=32) }}
+        </p>
+        <p>
+            {{ form.student_qualification_10.label }}<br>
+            {{ form.student_qualification_10(size=32) }}
+        </p>
+        <p>
+            {{ form.student_qualification_12.label }}<br>
+            {{ form.student_qualification_12(size=32) }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>

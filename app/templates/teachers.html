@@ -1,0 +1,41 @@
+<html lang="en">
+<head>
+  <title>Teachers Information</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2>{{ header_text }}</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Gender</th>
+        <th>Mobile No.</th>
+        <th>Course</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for teacher in teacher_data["teachers"] %}
+      <tr>
+        <td>{{ teacher["id"] }}</td>
+        <td>{{ teacher["name"] }}</td>
+        <td>{{ teacher["age"] }}</td>
+        <td>{{ teacher["gender"] }}</td>
+        <td>{{ teacher["mobile"] }}</td>
+        <td>{{ teacher["course"] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
