@@ -1,4 +1,6 @@
 from lib import db
+from flask_login import UserMixin
+from app import login
 
 def get_student_details():
     d = db.DB()
@@ -46,3 +48,25 @@ def get_teacher_details():
     d.close()
     return teacher_data
     
+class User(UserMixin):
+    id = 1234
+    username = ""
+    # email = db.Column(db.String(120), index=True, unique=True)
+    # password_hash = db.Column(db.String(128))
+    # posts = db.relationship('Post', backref='author', lazy='dynamic')
+
+    def __repr__(self):
+        return '<User {}>'.format(self.username)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+
+@login.user_loader
+def load_user(id):
+    user = User()
+    user.id = id
+    return user

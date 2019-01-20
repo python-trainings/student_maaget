@@ -1,9 +1,12 @@
-from flask import render_template
+from flask import render_template, url_for, redirect, flash
 from app import app
 import models
 from flask_wtf import FlaskForm
+from flask_login import current_user, login_user, login_required
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired
+from flask_login import logout_user
+
+from forms import LoginForm , StudentRegForm
 
 
 
@@ -12,6 +15,7 @@ def welcome_home():
     return "Home Page"
 
 @app.route('/students')
+@login_required
 def students():
     student_data = models.get_student_details()
     header_text = "Student Details"
@@ -43,17 +47,41 @@ def add_student():
         return render_template('students.html',header_text = header_text, student_data = student_data)
     return render_template('add_student.html', title='Add Student', form=form)
 
-class StudentRegForm(FlaskForm):
-    student_name = StringField('Student Name', validators=[DataRequired()])
-    student_age = StringField('Age', validators=[DataRequired()])
-    student_gender = StringField('Gender', validators=[DataRequired()])
-    student_contact_no = StringField('Mobile', validators=[DataRequired()])
-    student_course = StringField('Course', validators=[DataRequired()])
-    student_address = StringField('Address', validators=[DataRequired()])
-    student_qualification_10 = StringField('10th Marks', validators=[DataRequired()])
-    student_qualification_12 = StringField('12th Marks', validators=[DataRequired()])
-    submit = SubmitField('Add')    
 
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('students'))
+
+    form = LoginForm()
+    next_page = url_for('login')
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        user = models.User()
+        user.username = username
+        user.id = 123456
+        if username == "admin" and password == "1234":
+            next_page = url_for('students')
+            login_user(user, remember=form.remember_me.data)
+        else:
+            flash('Invalid username or password')
+            return redirect(url_for('login'))
+        # user = User.query.filter_by(username=form.username.data).first()
+        # if user is None or not user.check_password(form.password.data):
+        #     flash('Invalid username or password')
+        #     return redirect(url_for('login'))
+        # login_user(user, remember=form.remember_me.data)
+        # next_page = request.args.get('next')
+        # if not next_page or url_parse(next_page).netloc != '':
+        #     next_page = url_for('index')
+        # return redirect(next_page)
+        return redirect(next_page)
+    return render_template('login.html', title='Sign In', form=form)
 
 
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
