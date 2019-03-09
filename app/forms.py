@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, NumberRange
 # from app.models import User
 
 
@@ -12,9 +12,9 @@ class LoginForm(FlaskForm):
 
 class StudentRegForm(FlaskForm):
     student_name = StringField('Student Name', validators=[DataRequired()])
-    student_age = StringField('Age', validators=[DataRequired()])
+    student_age = StringField('Age', validators=[DataRequired(), NumberRange(18,30)])
     student_gender = StringField('Gender', validators=[DataRequired()])
-    student_contact_no = StringField('Mobile', validators=[DataRequired()])
+    student_contact_no = StringField('Mobile', validators=[DataRequired(),Email()])
     student_course = StringField('Course', validators=[DataRequired()])
     student_address = StringField('Address', validators=[DataRequired()])
     student_qualification_10 = StringField('10th Marks', validators=[DataRequired()])

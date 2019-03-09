@@ -1,14 +1,61 @@
 <html>
     <head>
+        <head>
+            <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         {% if title %}
         <title>{{ title }} - ESdata</title>
         {% else %}
         <title>Welcome to ESdata</title>
         {% endif %}
+        <style>
+body {margin:0;}
+
+.topnav {
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  border-bottom: 3px solid transparent;
+}
+
+.topnav a:hover {
+  border-bottom: 3px solid red;
+}
+
+.topnav a.active {
+  border-bottom: 3px solid red;
+}
+.topnav-right {
+  float: right;
+}
+</style>
     </head>
     <body>
-        <div>ESdata: <a href="/index">Home</a></div>
-
+        <div class="topnav">
+  <a href="#contact">ESData</a>
+  <a class="active" href="{{ url_for('index') }}">Home</a>
+  {% if  loggedin %}
+    <div class="topnav-right"><a href="{{ url_for('logout') }}">Logout</a></div>
+   {% else %}
+    <div class="topnav-right"><a href="{{ url_for('login') }}">Login</a></div>
+    <a href="{{ url_for('add_student') }}">Add Student</a>
+    <a href="{{ url_for('add_teacher') }}">Add Teacher</a>
+{% endif %}
+</div>
         <hr>
         {% block content %}{% endblock %}
     </body>

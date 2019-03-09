@@ -1,22 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Add Student</h1>
+<h1>Add Teacher</h1>
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
         <p>
             {{ form.student_name.label }}<br>
             {{ form.student_name(size=32) }}
-            {% for error in form.student_name.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
         </p>
         <p>
             {{ form.student_age.label }}<br>
             {{ form.student_age(size=32) }}
-            {% for error in form.student_age.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
         </p>
         <p>
             {{ form.student_gender.label }}<br>
@@ -25,14 +19,10 @@
         <p>
             {{ form.student_contact_no.label }}<br>
             {{ form.student_contact_no(size=32) }}
-            {% for error in form.student_contact_no.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
         </p>
         <p>
             {{ form.student_course.label }}<br>
             {{ form.student_course(size=32) }}
-
         </p>
         <p>
             {{ form.student_address.label }}<br>

@@ -11,21 +11,22 @@ from forms import LoginForm , StudentRegForm
 
 
 @app.route('/')
-def welcome_home():
-    return "Home Page"
+def index():
+    return render_template('index.html')
 
 @app.route('/students')
 @login_required
 def students():
     student_data = models.get_student_details()
     header_text = "Student Details"
-    return render_template('students.html',header_text = header_text, student_data = student_data)
+    return render_template('students.html',header_text = header_text, student_data = student_data, loggedin =True)
 
 @app.route('/teachers')
+@login_required
 def teachers():
     teacher_data = models.get_teacher_details()
     header_text = "Teacher Details"
-    return render_template('teachers.html',header_text = header_text, teacher_data = teacher_data)
+    return render_template('teachers.html',header_text = header_text, teacher_data = teacher_data, loggedin =True)
 
 @app.route('/add_student', methods=['GET', 'POST'])
 def add_student():
@@ -44,9 +45,30 @@ def add_student():
             )
         header_text = "Student Details"
         student_data = models.get_student_details()
-        return render_template('students.html',header_text = header_text, student_data = student_data)
-    return render_template('add_student.html', title='Add Student', form=form)
+        return redirect(url_for('login'))
+    return render_template('add_student.html', title='Add Student', form=form, loggedin =False)
 
+
+
+@app.route('/add_teacher', methods=['GET', 'POST'])
+def add_teacher():
+    form = StudentRegForm()
+    if form.validate_on_submit():
+        print form.student_name.data, form.student_age.data
+        student_data = models.add_student_details(
+            form.student_name.data, 
+            form.student_age.data, 
+            form.student_gender.data,
+            form.student_contact_no.data,
+            form.student_course.data,
+            form.student_address.data,
+            form.student_qualification_10.data,
+            form.student_qualification_12.data
+            )
+        header_text = "Student Details"
+        student_data = models.get_student_details()
+        return redirect(url_for('login'))
+    return render_template('add_teacher.html', title='Add Student', form=form, loggedin =False)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -62,7 +84,11 @@ def login():
         user = models.User()
         user.username = username
         user.id = 123456
-        if username == "admin" and password == "1234":
+        if username == "teacher" and password == "1234":
+            next_page = url_for('teachers')
+            login_user(user, remember=form.remember_me.data)
+
+        elif models.check_user_cred(username, password ):
             next_page = url_for('students')
             login_user(user, remember=form.remember_me.data)
         else:
@@ -78,7 +104,7 @@ def login():
         #     next_page = url_for('index')
         # return redirect(next_page)
         return redirect(next_page)
-    return render_template('login.html', title='Sign In', form=form)
+    return render_template('login.html', title='Sign In', form=form, loggedin =False)
 
 
 @app.route('/logout')

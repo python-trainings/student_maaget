@@ -23,6 +23,12 @@ def get_student_details():
     d.close()
     return student_data
 
+def check_user_cred(username, password,):
+    d = db.DB()
+    data = d.fetch("SELECT * from student WHERE name='%s' AND password='%s';" % (username, password))
+    if len(data) > 0:
+        return True
+    return False
 def add_student_details(name,age, gender, contact_no, course, address, qualification_10, qualification_12):
     print "Adding students................."
     print "insert into student(name,age, gender, contact_no, course, address, qualification_10, qualification_12) values ('%s', %s, '%s', '%s', '%s', '%s', %s, %s);" % (name,age, gender, contact_no, course, address, qualification_10, qualification_12)
